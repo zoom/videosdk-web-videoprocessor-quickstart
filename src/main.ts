@@ -1,5 +1,5 @@
 import ZoomVideo, { VideoPlayer, VideoQuality } from "@zoom/videosdk";
-import { generateSignature } from "./utils";
+import { generateSignature, getBitmap } from "./utils";
 import "./style.css";
 
 // You should sign your JWT with a backend service in a production use-case
@@ -14,16 +14,26 @@ const client = ZoomVideo.createClient();
 await client.init("en-US", "Global", { patchJsMedia: true });
 
 const startCall = async () => {
-  // generate a token to join the session - in production this will be done by your backend
   const token = generateSignature(topic, role, sdkKey, sdkSecret);
-  // call the renderVideo function whenever a user joins or leaves
   client.on("peer-video-state-change", renderVideo);
   await client.join(topic, token, username);
   const mediaStream = client.getMediaStream();
   await mediaStream.startAudio();
   await mediaStream.startVideo();
-  // render the video of the current user
+
+  const processor = await mediaStream.createProcessor({
+    name: "watermark-processor",
+    type: "video",
+    url: window.location.origin + "/watermark-processor.js",
+    options: {},
+  });
+  await mediaStream.addProcessor(processor); // Add a processor
   await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
+  const data = await getBitmap("Hello world!"); // create a bitmap image from text
+  processor.port.postMessage({
+    cmd: "update_watermark_image",
+    data: data,
+  });
 };
 
 const renderVideo = async (event: { action: "Start" | "Stop"; userId: number; }) => {
@@ -51,11 +61,9 @@ const toggleVideo = async () => {
   const mediaStream = client.getMediaStream();
   if (mediaStream.isCapturingVideo()) {
     await mediaStream.stopVideo();
-    // update the canvas when the video is stopped
     await renderVideo({ action: 'Stop', userId: client.getCurrentUserInfo().userId });
   } else {
     await mediaStream.startVideo();
-    // update the canvas when the video is started
     await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
   }
 };

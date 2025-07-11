@@ -1,4 +1,4 @@
-# Zoom Video SDK Web Hello World Sample
+# Zoom Video SDK Web Media Processor Quickstart
 
 Use of this sample app is subject to our [Terms of Use](https://explore.zoom.us/en/video-sdk-terms/).
 
