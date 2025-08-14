@@ -10,18 +10,9 @@ class WatermarkProcessor extends VideoProcessor {
         super(port, options);
         port.addEventListener('message', (e) => {
             if (e.data.cmd === 'update_watermark_image') {
-                this.updateWatermarkImage(e.data.data);
+                this.watermarkImage = e.data.image;
             }
         });
-    }
-
-    /**
-     * @param {VideoFrame} input 
-     * @param {OffscreenCanvas} output 
-     */
-    async processFrame(input, output) {
-        this.renderFrame(input, output);
-        return true;
     }
 
     onInit() {
@@ -40,30 +31,21 @@ class WatermarkProcessor extends VideoProcessor {
         this.watermarkImage = null;
     }
 
-    /** @param {ImageBitmap} input */
-    updateWatermarkImage(imageBitmap) {
-        this.watermarkImage = imageBitmap;
-    }
-
     /**
-     * @param {VideoFrame} input
-     * @param {OffscreenCanvas} output
+     * @param {VideoFrame} input 
+     * @param {OffscreenCanvas} output 
      */
-    renderFrame(input, output) {
+    async processFrame(input, output) {
         if (!this.context) return;
         this.context.drawImage(input, 0, 0, output.width, output.height);
         if (this.watermarkImage) {
             this.context.globalAlpha = 0.5;
             this.context.imageSmoothingEnabled = true;
-            this.context.drawImage(
-                this.watermarkImage,
-                0,
-                0,
-                this.watermarkImage.width,
-                this.watermarkImage.height
-            );
+            const { width, height } = this.watermarkImage;
+            this.context.drawImage(this.watermarkImage, 0, 0, width, height);
             this.context.globalAlpha = 1.0;
         }
+        return true;
     }
 }
 
