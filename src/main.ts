@@ -1,4 +1,4 @@
-import ZoomVideo, { type event_peer_video_state_change, Processor, VideoPlayer, VideoQuality } from "@zoom/videosdk";
+import ZoomVideo, { type event_peer_video_state_change, Processor, VideoPlayer, VideoQuality, VideoClient } from "@zoom/videosdk";
 import { generateSignature, getBitmap } from "./utils";
 import "./style.css";
 
@@ -9,24 +9,24 @@ const sdkSecret = import.meta.env.VITE_SDK_SECRET as string;
 const topic = "TestOne";
 const role = 1;
 const username = `User-${String(new Date().getTime()).slice(6)}`;
-const client = ZoomVideo.createClient();
-await client.init("en-US", "Global", { patchJsMedia: true });
 const videoContainer = document.querySelector('video-player-container') as HTMLElement;
 let processor: Processor;
+let client: typeof VideoClient;
 
 const startCall = async () => {
+    client = ZoomVideo.createClient();
+    await client.init("en-US", "Global", { patchJsMedia: true });
     const token = generateSignature(topic, role, sdkKey, sdkSecret);
     client.on("peer-video-state-change", renderVideo);
     await client.join(topic, token, username);
     const mediaStream = client.getMediaStream();
     await mediaStream.startAudio();
     await mediaStream.startVideo();
-    if (!processor)
-        processor = await mediaStream.createProcessor({
-            type: "video",
-            name: "watermark-processor",
-            url: window.location.origin + "/watermark-processor.js",
-        });
+    processor = await mediaStream.createProcessor({
+        type: "video",
+        name: "watermark-processor",
+        url: window.location.origin + "/watermark-processor.js",
+    });
     await mediaStream.addProcessor(processor); // Add a processor
     await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
     await applyWatermark("Hello world!");
@@ -57,6 +57,7 @@ const leaveCall = async () => {
     }
     client.off("peer-video-state-change", renderVideo);
     await client.leave();
+    await ZoomVideo.destroyClient();
 }
 
 const toggleVideo = async () => {
