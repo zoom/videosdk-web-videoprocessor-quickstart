@@ -2,7 +2,9 @@
 
 Use of this sample app is subject to our [Terms of Use](https://explore.zoom.us/en/video-sdk-terms/).
 
-The [Zoom Video SDK for web](https://developers.zoom.us/docs/video-sdk/web/) enables you to build custom video experiences on a webpage with Zoom's core technology. This demo showcases how to use a [media processor](https://developers.zoom.us/docs/video-sdk/web/raw-data) to add a watermark to the video stream.
+The [Zoom Video SDK for web](https://developers.zoom.us/docs/video-sdk/web/) enables you to build custom video experiences on a webpage with Zoom's core technology. This demo showcases how to use a [media processor](https://developers.zoom.us/docs/video-sdk/web/raw-data) to add a watermark to the video stream:
+
+![](images/screencap.png)
 
 ## Installation
 
@@ -38,6 +40,9 @@ To get started, clone the repo:
 1. The rendered video will have a watermark
 
 For the full list of features and event listeners, as well as additional guides, see our [Video SDK docs](https://developers.zoom.us/docs/video-sdk/web/).
+
+You can find a more example in the [advanced branch](https://github.com/zoom/videosdk-web-videoprocessor-quickstart/tree/advanced):
+![](images/card.png)
 
 ## Need help?
 
