@@ -1,5 +1,5 @@
 import ZoomVideo, { type event_peer_video_state_change, Processor, VideoPlayer, VideoQuality, VideoClient } from "@zoom/videosdk";
-import { generateSignature, getBitmap } from "./utils";
+import { generateSignature, getBusinessCardBitmap } from "./utils";
 import "./style.css";
 
 // You should sign your JWT with a backend service in a production use-case
@@ -29,7 +29,7 @@ const startCall = async () => {
     });
     await mediaStream.addProcessor(processor); // Add a processor
     await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
-    await applyWatermark("Hello world!");
+    await applyWatermark();
 };
 
 const renderVideo: typeof event_peer_video_state_change = async (event) => {
@@ -43,9 +43,19 @@ const renderVideo: typeof event_peer_video_state_change = async (event) => {
     }
 };
 
-const applyWatermark = async (text: string) => {
-    const imageBitmap = await getBitmap(text); // create a bitmap image from text
-    processor.port.postMessage({ cmd: "update_watermark_image", image: imageBitmap });
+const applyWatermark = async () => {
+    const bitmap = await getBusinessCardBitmap({
+        name: username,
+        title: "Video SDK Demo",
+        company: "Acme Co.",
+        email: "user@example.com",
+        frameWidth: 1280,
+        frameHeight: 720,
+        cardWidth: 1280,
+        cardHeight: 280,
+        brandColor: "#22c55e",
+    });
+    processor.port.postMessage({ cmd: "update_watermark_image", image: bitmap });
 }
 
 const leaveCall = async () => {
@@ -68,6 +78,7 @@ const toggleVideo = async () => {
     } else {
         await mediaStream.startVideo();
         await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
+        await applyWatermark();
     }
 };
 
@@ -104,8 +115,4 @@ stopBtn.addEventListener("click", async () => {
 
 toggleVideoBtn.addEventListener("click", async () => {
     await toggleVideo();
-});
-
-changeWatermarkBtn.addEventListener("click", async () => {
-    await applyWatermark(Math.random().toString(36).substring(2, 15));
 });

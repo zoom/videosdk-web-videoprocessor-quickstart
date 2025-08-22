@@ -39,10 +39,24 @@ class WatermarkProcessor extends VideoProcessor {
         if (!this.context) return;
         this.context.drawImage(input, 0, 0, output.width, output.height);
         if (this.watermarkImage) {
-            this.context.globalAlpha = 0.5;
+            this.context.globalAlpha = 1.0; // Full opacity for business card
             this.context.imageSmoothingEnabled = true;
-            const { width, height } = this.watermarkImage;
-            this.context.drawImage(this.watermarkImage, 0, 0, width, height);
+
+            // Calculate card dimensions maintaining aspect ratio
+            const originalCardWidth = this.watermarkImage.width;
+            const originalCardHeight = this.watermarkImage.height;
+
+            // Scale the card to fit the output width while maintaining aspect ratio
+            const scale = output.width / originalCardWidth;
+            const cardWidth = output.width;
+            const cardHeight = originalCardHeight * scale;
+
+            // Position the business card as a full-width bottom bar
+            const cardX = 0;
+            const cardY = output.height - cardHeight;
+
+            // Draw the business card at the calculated position
+            this.context.drawImage(this.watermarkImage, cardX, cardY, cardWidth, cardHeight);
             this.context.globalAlpha = 1.0;
         }
         return true;
