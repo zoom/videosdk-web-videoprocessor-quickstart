@@ -20,6 +20,9 @@ const startCall = async () => {
     client.on("peer-video-state-change", renderVideo);
     await client.join(topic, token, username);
     const mediaStream = client.getMediaStream();
+    if (!mediaStream.isSupportVideoProcessor()) {
+        alert("Your browser does not support video processor");
+    }
     await mediaStream.startAudio();
     await mediaStream.startVideo();
     processor = await mediaStream.createProcessor({
@@ -86,7 +89,6 @@ const toggleVideo = async () => {
 const startBtn = document.querySelector("#start-btn") as HTMLButtonElement;
 const stopBtn = document.querySelector("#stop-btn") as HTMLButtonElement;
 const toggleVideoBtn = document.querySelector("#toggle-video-btn") as HTMLButtonElement;
-const changeWatermarkBtn = document.querySelector("#change-watermark-btn") as HTMLButtonElement;
 
 startBtn.addEventListener("click", async () => {
     if (!sdkKey || !sdkSecret) {
@@ -100,7 +102,6 @@ startBtn.addEventListener("click", async () => {
     startBtn.style.display = "none";
     stopBtn.style.display = "block";
     toggleVideoBtn.style.display = "block";
-    changeWatermarkBtn.style.display = "block";
 });
 
 stopBtn.addEventListener("click", async () => {
@@ -110,7 +111,6 @@ stopBtn.addEventListener("click", async () => {
     startBtn.style.display = "block";
     startBtn.innerHTML = "Join";
     startBtn.disabled = false;
-    changeWatermarkBtn.style.display = "none";
 });
 
 toggleVideoBtn.addEventListener("click", async () => {
