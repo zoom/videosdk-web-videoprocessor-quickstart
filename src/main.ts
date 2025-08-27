@@ -20,6 +20,9 @@ const startCall = async () => {
     client.on("peer-video-state-change", renderVideo);
     await client.join(topic, token, username);
     const mediaStream = client.getMediaStream();
+    if (!mediaStream.isSupportVideoProcessor()) {
+        alert("Your browser does not support video processor");
+    }
     await mediaStream.startAudio();
     await mediaStream.startVideo();
     processor = await mediaStream.createProcessor({
