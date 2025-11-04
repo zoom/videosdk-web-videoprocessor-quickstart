@@ -5,7 +5,7 @@
       "name": "zoom-vite",
       "dependencies": {
         "@types/jsrsasign": "^10.5.13",
-        "@zoom/videosdk": "^2.2.10",
+        "@zoom/videosdk": "^2.3.0",
         "jsrsasign": "^11.1.0",
       },
       "devDependencies": {
@@ -130,7 +130,7 @@
 
     "@types/jsrsasign": ["@types/jsrsasign@10.5.13", "", {}, "sha512-vvVHLrXxoUZgBWTcJnTMSC4FAQcG2loK7N1Uy20I3nr/aUhetbGdfuwSzXkrMoll2RoYKW0IcMIN0I0bwMwVMQ=="],
 
-    "@zoom/videosdk": ["@zoom/videosdk@2.2.10", "", {}, "sha512-Ap6VbwdkmA+mQplLqRIxdN6QA7wdZH1bmpIPxJnfBPKwcSxB4dwITVc/Z1tbnfolz6qLFwJg/zKZqb0XPGApAg=="],
+    "@zoom/videosdk": ["@zoom/videosdk@2.3.0", "", {}, "sha512-sQZ4CmYWFeJoPXP3ix2GGKdUcUeraYsHmhPY/PZrU90wbb2/d2bH9jJIgptOnuXoqEqWq3BqoegAgckGzTveyQ=="],
 
     "ansi-regex": ["ansi-regex@6.0.1", "", {}, "sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA=="],
 

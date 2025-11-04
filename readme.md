@@ -41,7 +41,7 @@ To get started, clone the repo:
 
 For the full list of features and event listeners, as well as additional guides, see our [Video SDK docs](https://developers.zoom.us/docs/video-sdk/web/).
 
-You can find a more example in the [advanced branch](https://github.com/zoom/videosdk-web-videoprocessor-quickstart/tree/advanced):
+You can find a more in-depth example in the [advanced branch](https://github.com/zoom/videosdk-web-videoprocessor-quickstart/tree/advanced):
 ![](images/card.png)
 
 ## Need help?
