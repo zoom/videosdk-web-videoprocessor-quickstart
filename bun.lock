@@ -5,7 +5,7 @@
       "name": "zoom-vite",
       "dependencies": {
         "@types/jsrsasign": "^10.5.13",
-        "@zoom/videosdk": "^2.2.0",
+        "@zoom/videosdk": "^2.3.5",
         "fabric": "^6.7.1",
         "jsrsasign": "^11.1.0",
       },
@@ -135,7 +135,7 @@
 
     "@types/jsrsasign": ["@types/jsrsasign@10.5.13", "", {}, "sha512-vvVHLrXxoUZgBWTcJnTMSC4FAQcG2loK7N1Uy20I3nr/aUhetbGdfuwSzXkrMoll2RoYKW0IcMIN0I0bwMwVMQ=="],
 
-    "@zoom/videosdk": ["@zoom/videosdk@2.2.0", "", {}, "sha512-gns4UUQlpfhQmuVuK366vTVH4jBGPeqg8at5Wd9pdLCEldK6YsFTZD3VtbCvFxQ2HBHTsN/zdJ6YFlHeluERAA=="],
+    "@zoom/videosdk": ["@zoom/videosdk@2.3.5", "", {}, "sha512-Zs/ASdN/n7uNxrHcQ7qsRyoBFMIy0CRCe1R70zbqlNiQJ+N7bwsFpfsxOrjljYBOkbkjzCMEszZPSpB6ZHMVxg=="],
 
     "abab": ["abab@2.0.6", "", {}, "sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA=="],
 
