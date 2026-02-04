@@ -1,26 +1,4 @@
-import KJUR from "jsrsasign";
 import { Canvas, FabricText } from "fabric";
-
-// You should sign your JWT with a backend service in a production use-case
-export function generateSignature(sessionName: string, role: number, sdkKey: string, sdkSecret: string) {
-  const iat = Math.round(new Date().getTime() / 1000) - 30;
-  const exp = iat + 60 * 60 * 2;
-  const oHeader = { alg: "HS256", typ: "JWT" };
-
-  const oPayload = {
-    app_key: sdkKey,
-    tpc: sessionName,
-    role_type: role,
-    version: 1,
-    iat: iat,
-    exp: exp,
-  };
-
-  const sHeader = JSON.stringify(oHeader);
-  const sPayload = JSON.stringify(oPayload);
-  const sdkJWT = KJUR.KJUR.jws.JWS.sign("HS256", sHeader, sPayload, sdkSecret);
-  return sdkJWT;
-}
 
 export async function getBitmap(message: string) {
   const canvas = new Canvas(document.createElement("canvas"), {
@@ -29,8 +7,8 @@ export async function getBitmap(message: string) {
   });
 
   const text = new FabricText(message, {
-    left: 10,
-    top: 10,
+    left: 175,
+    top: 50,
     fontSize: 60,
     fill: "red",
   });

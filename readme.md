@@ -18,15 +18,6 @@ To get started, clone the repo:
 
    `npm install`
 
-1. Create a `.env` file in the root directory of the project, you can do this by copying the `.env.example` file (`cp .env.example .env`) and replacing the values with your own. The `.env` file should look like this, with your own Zoom Video SDK key and secret:
-
-   ```
-   VITE_SDK_KEY=abc123XXXXXXXXXX
-   VITE_SDK_SECRET=abc123XXXXXXXXXX
-   ```
-
-   Add your Zoom Video SDK key and secret to the `.env` file.
-
 1. Run the app:
 
    `npm run dev`
@@ -37,7 +28,21 @@ To get started, clone the repo:
 
 1. Click "Join" to join the session
 
-1. The rendered video will have a watermark
+1. In the prompt, input a JWT for your session name (default: "TestOne").
+
+## JWT Helper
+The project provides a `generateToken.ts` file that can be used to generate a temporary JWT:
+1. Create a `.env` file in the root directory of the project, you can do this by copying the `.env.example` file (`cp .env.example .env`) and replacing the values with your own. The `.env` file should look like this:
+
+```
+SDK_KEY=abc123XXXXXXXXXX
+SDK_SECRET=abc123XXXXXXXXXX
+```
+
+1. Run `node generateToken.ts TestOne --copy-to-clipboard`
+
+The script generates a token for the proivded session name and the `--copy-to-clipboard` or `-c` flag copies it to your clipboard.
+
 
 For the full list of features and event listeners, as well as additional guides, see our [Video SDK docs](https://developers.zoom.us/docs/video-sdk/web/).
 

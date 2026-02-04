@@ -1,24 +1,18 @@
 import ZoomVideo, { type event_peer_video_state_change, Processor, VideoPlayer, VideoQuality, VideoClient } from "@zoom/videosdk";
-import { generateSignature, getBitmap } from "./utils";
+import { getBitmap } from "./utils";
 import "./style.css";
 
-// You should sign your JWT with a backend service in a production use-case
-const sdkKey = import.meta.env.VITE_SDK_KEY as string;
-const sdkSecret = import.meta.env.VITE_SDK_SECRET as string;
-
-const topic = "TestOne";
-const role = 1;
+const sessionName = "TestOne";
 const username = `User-${String(new Date().getTime()).slice(6)}`;
 const videoContainer = document.querySelector('video-player-container') as HTMLElement;
 let processor: Processor;
 let client: typeof VideoClient;
 
-const startCall = async () => {
+const startCall = async (token: string) => {
     client = ZoomVideo.createClient();
     await client.init("en-US", "Global", { patchJsMedia: true });
-    const token = generateSignature(topic, role, sdkKey, sdkSecret);
     client.on("peer-video-state-change", renderVideo);
-    await client.join(topic, token, username);
+    await client.join(sessionName, token, username);
     const mediaStream = client.getMediaStream();
     if (!mediaStream.isSupportVideoProcessor()) {
         alert("Your browser does not support video processor");
@@ -81,13 +75,14 @@ const toggleVideoBtn = document.querySelector("#toggle-video-btn") as HTMLButton
 const changeWatermarkBtn = document.querySelector("#change-watermark-btn") as HTMLButtonElement;
 
 startBtn.addEventListener("click", async () => {
-    if (!sdkKey || !sdkSecret) {
-        alert("Please enter SDK Key and SDK Secret in the .env file");
+    const token = window.prompt("Enter a token");
+    if (!token) {
+        alert("Please enter a token");
         return;
     }
     startBtn.innerHTML = "Connecting...";
     startBtn.disabled = true;
-    await startCall();
+    await startCall(token);
     startBtn.innerHTML = "Connected";
     startBtn.style.display = "none";
     stopBtn.style.display = "block";
